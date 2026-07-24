@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Bella Pink — Produtos de Beleza</title>
+	<style>
+		:root{--pink:#ff69b4;--dark:#222}
+		body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;margin:0;color:var(--dark);background:#fff}
+		header{background:linear-gradient(90deg,#fff0f6, #ffe6f3);padding:24px 16px;display:flex;align-items:center;justify-content:space-between}
+		.brand{display:flex;align-items:center;gap:12px}
+		.logo{width:56px;height:56px;border-radius:12px;background:var(--pink);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+		nav a{margin-left:12px;text-decoration:none;color:var(--dark);font-weight:600}
+		.container{max-width:1100px;margin:32px auto;padding:0 16px}
+		.hero{display:flex;gap:24px;align-items:center}
+		.hero .txt{flex:1}
+		.cta{background:var(--pink);color:#fff;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:700}
+		.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px;margin-top:24px}
+		.card{border:1px solid #f0dfe9;border-radius:12px;padding:12px;background:#fff}
+		.img{height:180px;background:linear-gradient(180deg,#ffeef8,#fff);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#b33}
+		footer{margin-top:40px;padding:24px 16px;background:#f9f5f8;color:#444}
+		.grid{display:grid;grid-template-columns:1fr 300px;gap:24px}
+		@media(max-width:720px){.hero{flex-direction:column}.grid{grid-template-columns:1fr}}
+	</style>
+</head>
+<body>
+	<header>
+		<div class="brand">
+			<div class="logo">BP</div>
+			<div>
+				<div style="font-weight:800">Bella Pink</div>
+				<div style="font-size:13px;color:#666"><a href="https://www.instagram.com/bellapink.beauty" target="_blank">Beleza feminina • @bellapink.beauty</a></div>
+			</div>
+		</div>
+		<nav>
+			<a href="#produtos">Produtos</a>
+			<a href="#sobre">Sobre</a>
+			<a href="#contato">Contato</a>
+		</nav>
+	</header>
+
+	<main class="container">
+		<section class="hero">
+			<div class="txt">
+				<h1 style="margin:0;color:var(--pink)">Bella Pink — Encante-se com sua beleza</h1>
+				<p style="color:#444">Linha curada de cosméticos, maquiagem e cuidados para realçar sua confiança todos os dias. Siga no Instagram: <strong><a href="https://www.instagram.com/bellapink.beauty" target="_blank">@bellapink.beauty</a></strong></p>
+				<p><a class="cta" href="#produtos">Ver Produtos</a></p>
+			</div>
+			<div style="width:320px">
+				<div style="border-radius:12px;overflow:hidden;border:1px solid #fde7f3">
+					<div style="padding:14px;background:#fff">
+						<strong>Destaque</strong>
+						<div style="margin-top:8px;color:#666">Paleta de sombras Bella Glow — tons suaves e pigmentados</div>
+						<div style="margin-top:12px"><a class="cta" href="#">Comprar</a></div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="produtos">
+			<h2 style="margin-top:36px">Produtos</h2>
+			<div class="products">
+				<article class="card">
+					<div class="img">Batom Líquido</div>
+					<h3>Batom Líquido Velvet</h3>
+					<p style="color:#666">Acabamento mate, longa duração. Tons: Nude, Rosa, Vermelho.</p>
+					<div style="margin-top:8px;font-weight:700;color:var(--pink)">R$ 39,90</div>
+				</article>
+
+				<article class="card">
+					<div class="img">Paleta</div>
+					<h3>Paleta Bella Glow</h3>
+					<p style="color:#666">6 tons para diversos looks — pigmentação e fácil aplicação.</p>
+					<div style="margin-top:8px;font-weight:700;color:var(--pink)">R$ 79,90</div>
+				</article>
+
+				<article class="card">
+					<div class="img">Sérum</div>
+					<h3>Sérum Hidratante</h3>
+					<p style="color:#666">Hidratação leve e brilho natural, para todos os tipos de pele.</p>
+					<div style="margin-top:8px;font-weight:700;color:var(--pink)">R$ 59,90</div>
+				</article>
+
+				<article class="card">
+					<div class="img">Máscara</div>
+					<h3>Máscara Capilar Nutri</h3>
+					<p style="color:#666">Reparação profunda com ativos naturais.</p>
+					<div style="margin-top:8px;font-weight:700;color:var(--pink)">R$ 49,90</div>
+				</article>
+			</div>
+		</section>
+
+		<section id="sobre" style="margin-top:32px">
+			<div class="grid">
+				<div>
+					<h2>Sobre a Bella Pink</h2>
+					<p>A Bella Pink é uma loja especializada em produtos de beleza pensados para valorizar a mulher moderna. Selecionamos marcas e fórmulas com qualidade, resultado e bom custo-benefício.</p>
+					<ul>
+						<li>Produtos testados e selecionados</li>
+						<li>Envio rápido e embalagens seguras</li>
+						<li>Atendimento pelo Instagram: <a href="https://www.instagram.com/bellapink.beauty" target="_blank">@bellapink.beauty</a></li>
+					</ul>
+				</div>
+				<aside>
+					<h3>Siga nosso Instagram</h3>
+					<p><a href="https://www.instagram.com/bellapink.beauty" target="_blank">@bellapink.beauty</a></p>
+					<div style="margin-top:12px;color:#666">Acompanhe lançamentos, tutoriais e promoções. Fotos reais e inspirações de looks.</div>
+				</aside>
+			</div>
+		</section>
+
+		<section id="contato" style="margin-top:32px">
+			<h2>Contato</h2>
+			<p>Atendimento via Instagram: <a href="https://www.instagram.com/bellapink.beauty" target="_blank">@bellapink.beauty</a></p>
+			<form style="max-width:560px;margin-top:12px">
+				<input type="text" placeholder="Nome" style="width:100%;padding:10px;margin-bottom:8px;border-radius:8px;border:1px solid #eee" />
+				<input type="email" placeholder="E-mail" style="width:100%;padding:10px;margin-bottom:8px;border-radius:8px;border:1px solid #eee" />
+				<textarea placeholder="Mensagem" rows="4" style="width:100%;padding:10px;border-radius:8px;border:1px solid #eee"></textarea>
+				<div style="margin-top:8px"><button type="submit" class="cta">Enviar</button></div>
+			</form>
+		</section>
+	</main>
+
+	<footer>
+		<div class="container" style="padding:0">
+			<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+				<div>© Bella Pink • Produtos de beleza</div>
+				<div>Instagram: <a href="https://www.instagram.com/bellapink.beauty" target="_blank">@bellapink.beauty</a></div>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>
