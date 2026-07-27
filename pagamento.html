@@ -22,6 +22,10 @@
     .method{border:1px solid rgba(213,90,141,.24);border-radius:24px;padding:18px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;}
     .method input{margin-right:14px;transform:scale(1.2);}
     .info{color:#6d516a;line-height:1.7;margin-top:10px;}
+    .installment-wrap{margin-top:12px;display:none;}
+    .installment-wrap.active{display:block;}
+    .installment-wrap label{display:block;margin-bottom:8px;font-weight:700;color:var(--text);}
+    .installment-wrap select{width:100%;max-width:260px;padding:12px 14px;border:1px solid var(--border);border-radius:14px;background:#fff;color:var(--text);font:inherit;}
     button{border:none;border-radius:999px;padding:16px 28px;background:var(--pink);color:#fff;font-weight:700;cursor:pointer;box-shadow:0 14px 30px rgba(214,62,122,.22);margin-top:24px;}
     .result{background:#fff5f8;border:1px solid rgba(213,90,141,.24);border-radius:22px;padding:20px;color:#4f3145;margin-top:24px;}
     .footer{margin-top:40px;padding:24px;text-align:center;color:#6b4b6f;}
@@ -53,6 +57,20 @@
         <label class="method"><span><input type="radio" name="paymentMethod" value="creditParcelled" /></span><span>Crédito parcelado.</span></label>
       </div>
       <div id="paymentHelp" class="info"></div>
+      <div id="installmentWrap" class="installment-wrap">
+        <label for="installmentSelect">Escolha a quantidade de parcelas</label>
+        <select id="installmentSelect">
+          <option value="2">2x</option>
+          <option value="3">3x</option>
+          <option value="4">4x</option>
+          <option value="5">5x</option>
+          <option value="6">6x</option>
+          <option value="7">7x</option>
+          <option value="8">8x</option>
+          <option value="9">9x</option>
+          <option value="10">10x</option>
+        </select>
+      </div>
       <button id="confirmPaymentBtn" type="button">Confirmar pagamento</button>
       <div id="confirmation" class="result" style="display:none;"></div>
     </div>
@@ -62,6 +80,15 @@
     const CART_KEY = 'bellaPinkCart';
     const state = { cart: JSON.parse(localStorage.getItem(CART_KEY) || '[]') };
     function formatPrice(value) { return value.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
+    function getTotal() {
+      return state.cart.reduce((sum, item) => sum + Number(item.price || 0), 0);
+    }
+    function getSelectedMethod() {
+      return document.querySelector('input[name="paymentMethod"]:checked').value;
+    }
+    function getInstallments() {
+      return Number(document.getElementById('installmentSelect').value || 2);
+    }
     function renderSummary() {
       const summary = document.getElementById('paymentSummary');
       if (!state.cart.length) {
@@ -69,32 +96,47 @@
         document.getElementById('confirmPaymentBtn').style.display = 'none';
         return;
       }
-      const total = state.cart.reduce((sum, item) => sum + Number(item.price || 0), 0);
+      const total = getTotal();
       summary.innerHTML = `<strong>Itens:</strong> ${state.cart.length}<br /><strong>Total:</strong> ${formatPrice(total)}`;
       renderHelp();
     }
     function renderHelp() {
       const help = document.getElementById('paymentHelp');
-      const selected = document.querySelector('input[name="paymentMethod"]:checked').value;
+      const installmentWrap = document.getElementById('installmentWrap');
+      const selected = getSelectedMethod();
+      const total = getTotal();
+      const installments = getInstallments();
       if (selected === 'pix') {
+        installmentWrap.classList.remove('active');
         help.innerHTML = 'Use o PIX para pagamento rápido. Chave: 11.111.111/0001-11. Após o comprovante, o pedido será confirmado.';
       } else if (selected === 'creditSingle') {
+        installmentWrap.classList.remove('active');
         help.innerHTML = 'Crédito à vista com parcelamento em 1x. Parcelas sem juros dependendo da administradora.';
       } else {
-        help.innerHTML = 'Parcelamento em até 3x sem juros. Valor total será dividido em parcelas iguais.';
+        installmentWrap.classList.add('active');
+        help.innerHTML = `Parcelamento em ${installments}x de ${formatPrice(total / installments)} sem juros. Valor total será dividido em parcelas iguais.`;
       }
     }
     function confirmPayment() {
       if (!state.cart.length) return;
-      const method = document.querySelector('input[name="paymentMethod"]:checked').value;
-      const total = state.cart.reduce((sum, item) => sum + Number(item.price || 0), 0);
-      const details = method === 'pix' ? 'PIX identificado. Use a chave para pagamento.' : method === 'creditSingle' ? 'Pagamento em crédito à vista confirmado.' : 'Pagamento parcelado confirmado.';
+      const method = getSelectedMethod();
+      const total = getTotal();
+      const installments = getInstallments();
+      let details = '';
+      if (method === 'pix') {
+        details = 'PIX identificado. Use a chave para pagamento.';
+      } else if (method === 'creditSingle') {
+        details = 'Pagamento em crédito à vista confirmado.';
+      } else {
+        details = `Pagamento parcelado confirmado em ${installments}x de ${formatPrice(total / installments)}.`;
+      }
       localStorage.removeItem(CART_KEY);
       document.getElementById('confirmation').style.display = 'block';
       document.getElementById('confirmation').innerHTML = `<strong>Pagamento concluído!</strong><br />${details}<br />Total: ${formatPrice(total)}<br />Em breve você receberá a confirmação do pedido.`;
       document.getElementById('confirmPaymentBtn').style.display = 'none';
     }
     document.querySelectorAll('input[name="paymentMethod"]').forEach((input) => input.addEventListener('change', renderHelp));
+    document.getElementById('installmentSelect').addEventListener('change', renderHelp);
     document.getElementById('confirmPaymentBtn').addEventListener('click', confirmPayment);
     renderSummary();
   </script>

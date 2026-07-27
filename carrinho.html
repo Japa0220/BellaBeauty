@@ -133,15 +133,15 @@
       cartItems.innerHTML = state.cart.map((item, index) => `
         <div class="cart-item">
           <div>
-            <strong>${item.name}</strong><br />${item.weight ? item.weight + 'kg' : ''}
+            <strong>${item.name}</strong><br />${item.quantity ? 'Quantidade: ' + item.quantity : ''}
           </div>
           <div style="text-align:right;">
-            <div>${item.price.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</div>
+            <div>${(Number(item.price || 0) * Number(item.quantity || 1)).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</div>
             <button type="button" data-remove="${index}" style="margin-top:8px;padding:8px 14px;border:none;border-radius:999px;background:var(--pink);color:#fff;cursor:pointer;">Remover</button>
           </div>
         </div>
       `).join('');
-      const subtotal = state.cart.reduce((sum, item) => sum + Number(item.price || 0), 0);
+      const subtotal = state.cart.reduce((sum, item) => sum + Number(item.price || 0) * Number(item.quantity || 1), 0);
       cartSummary.style.display = 'block';
       cartSummary.innerHTML = `<strong>Resumo</strong><br />Total: ${subtotal.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}`;
       cartActions.style.display = 'flex';
