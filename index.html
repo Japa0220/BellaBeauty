@@ -5,23 +5,48 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Bella Pink — Produtos de Beleza</title>
 	<style>
-		:root{--pink:#ff69b4;--dark:#222}
+		:root{--pink:#ff69b4;--dark:#222;--light:#fffafc;--border:#f3dce8}
 		body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;margin:0;color:var(--dark);background:#fff}
-		header{background:linear-gradient(90deg,#fff0f6, #ffe6f3);padding:24px 16px;display:flex;align-items:center;justify-content:space-between}
+		header{background:linear-gradient(90deg,#fff0f6, #ffe6f3);padding:24px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
 		.brand{display:flex;align-items:center;gap:12px}
 		.logo{width:56px;height:56px;border-radius:12px;background:var(--pink);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
-		nav a{margin-left:12px;text-decoration:none;color:var(--dark);font-weight:600}
+		nav{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+		nav a, .mini-btn, .switch-btn{margin-left:4px;text-decoration:none;color:var(--dark);font-weight:600}
+		.mini-btn{background:#fff;border:1px solid var(--border);padding:8px 12px;border-radius:999px;cursor:pointer}
 		.container{max-width:1100px;margin:32px auto;padding:0 16px}
 		.hero{display:flex;gap:24px;align-items:center}
 		.hero .txt{flex:1}
-		.cta{background:var(--pink);color:#fff;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:700}
-		.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px;margin-top:24px}
+		.cta{background:var(--pink);color:#fff;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block}
+		.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;margin-top:24px}
 		.card{border:1px solid #f0dfe9;border-radius:12px;padding:12px;background:#fff}
 		.card-link{display:block;text-decoration:none;color:inherit}
 		.img{height:180px;background:linear-gradient(180deg,#ffeef8,#fff);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#b33}
+		.card-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+		.btn{padding:10px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+		.btn-primary{background:var(--pink);color:#fff}
+		.btn-secondary{background:#fff5fa;border:1px solid var(--border);color:var(--pink)}
+		.auth-section, .cart-section{margin-top:24px}
+		.auth-card, .cart-card{background:var(--light);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:0 12px 30px rgba(255,105,180,0.08)}
+		.auth-header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+		.tabs{display:flex;gap:8px;margin-bottom:12px}
+		.tab{background:#fff;border:1px solid var(--border);padding:8px 12px;border-radius:999px;cursor:pointer;font-weight:700;color:var(--dark)}
+		.tab.active{background:var(--pink);color:#fff}
+		.auth-panel{display:none}
+		.auth-panel.active{display:block}
+		.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+		.form-group{display:flex;flex-direction:column;gap:6px}
+		label{font-weight:600;font-size:0.95rem}
+		input, textarea{padding:10px;border-radius:10px;border:1px solid #e8dce4;background:#fff}
+		textarea{min-height:90px}
+		.message{margin-bottom:10px;padding:10px 12px;border-radius:10px;background:#fff3f9;color:#a13d72}
+		.cart-list{display:grid;gap:10px;margin-top:12px}
+		.cart-item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px;border:1px solid var(--border);border-radius:12px;background:#fff}
+		.cart-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+		.profile-box{background:#fff;padding:12px;border-radius:12px;border:1px solid var(--border)}
 		footer{margin-top:40px;padding:24px 16px;background:#f9f5f8;color:#444}
 		.grid{display:grid;grid-template-columns:1fr 300px;gap:24px}
-		@media(max-width:720px){.hero{flex-direction:column}.grid{grid-template-columns:1fr}}
+		@media(max-width:900px){.form-grid{grid-template-columns:1fr}.hero{flex-direction:column}}
+		@media(max-width:720px){.grid{grid-template-columns:1fr}}
 	</style>
 </head>
 <body>
@@ -41,6 +66,8 @@
 			<a href="paleta-bella-glow.html">Paleta</a>
 			<a href="serum-hidratante.html">Sérum</a>
 			<a href="mascara-capilar.html">Máscara</a>
+			<a href="#login" class="mini-btn">Entrar</a>
+			<a href="#carrinho" class="mini-btn">Carrinho <span id="cartCount">0</span></a>
 		</nav>
 	</header>
 
@@ -56,9 +83,105 @@
 					<div style="padding:14px;background:#fff">
 						<strong>Destaque</strong>
 						<div style="margin-top:8px;color:#666">Paleta de sombras Bella Glow — tons suaves e pigmentados</div>
-						<div style="margin-top:12px"><a class="cta" href="#">Comprar</a></div>
+						<div style="margin-top:12px"><button class="cta" type="button" data-product="Paleta Bella Glow" data-price="79.90" data-buy="single">Comprar</button></div>
 					</div>
 				</div>
+			</div>
+		</section>
+
+		<section class="auth-section" id="login">
+			<div class="auth-card">
+				<div class="auth-header">
+					<div>
+						<h2 style="margin:0">Área do cliente</h2>
+						<p style="margin:6px 0 0;color:#666">Faça login, crie o seu perfil e complete o cadastro com endereço para finalizar a compra.</p>
+					</div>
+					<div id="userBox" class="profile-box" style="display:none"></div>
+				</div>
+				<div class="tabs">
+					<button class="tab active" type="button" data-tab="login">Login</button>
+					<button class="tab" type="button" data-tab="register">Registre-se</button>
+				</div>
+				<div id="authMessage" class="message" style="display:none"></div>
+				<div class="auth-panel active" id="loginPanel">
+					<form id="loginForm">
+						<div class="form-grid">
+							<div class="form-group">
+								<label for="loginEmail">E-mail</label>
+								<input id="loginEmail" name="email" type="email" required />
+							</div>
+							<div class="form-group">
+								<label for="loginPassword">Senha</label>
+								<input id="loginPassword" name="password" type="password" required />
+							</div>
+						</div>
+						<div class="cart-actions">
+							<button class="btn btn-primary" type="submit">Entrar</button>
+						</div>
+					</form>
+				</div>
+				<div class="auth-panel" id="registerPanel">
+					<form id="registerForm">
+						<div class="form-grid">
+							<div class="form-group">
+								<label for="nome">Nome</label>
+								<input id="nome" name="nome" type="text" required />
+							</div>
+							<div class="form-group">
+								<label for="sobrenome">Sobrenome</label>
+								<input id="sobrenome" name="sobrenome" type="text" required />
+							</div>
+							<div class="form-group">
+								<label for="idade">Idade</label>
+								<input id="idade" name="idade" type="number" min="1" required />
+							</div>
+							<div class="form-group">
+								<label for="telefone">Telefone</label>
+								<input id="telefone" name="telefone" type="tel" required />
+							</div>
+							<div class="form-group">
+								<label for="registerEmail">E-mail</label>
+								<input id="registerEmail" name="email" type="email" required />
+							</div>
+							<div class="form-group">
+								<label for="registerPassword">Senha</label>
+								<input id="registerPassword" name="password" type="password" required />
+							</div>
+							<div class="form-group">
+								<label for="cep">CEP</label>
+								<input id="cep" name="cep" type="text" maxlength="9" required />
+							</div>
+							<div class="form-group">
+								<label for="endereco">Endereço</label>
+								<input id="endereco" name="endereco" type="text" required />
+							</div>
+							<div class="form-group">
+								<label for="numero">Número</label>
+								<input id="numero" name="numero" type="text" required />
+							</div>
+							<div class="form-group">
+								<label for="complemento">Complemento</label>
+								<input id="complemento" name="complemento" type="text" />
+							</div>
+							<div class="form-group">
+								<label for="referencia">Ponto de referência</label>
+								<input id="referencia" name="referencia" type="text" />
+							</div>
+						</div>
+						<div class="cart-actions">
+							<button class="btn btn-primary" type="submit">Criar Perfil</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</section>
+
+		<section class="cart-section" id="carrinho">
+			<div class="cart-card">
+				<h2 style="margin:0">Carrinho de compras</h2>
+				<p style="margin:6px 0 0;color:#666">Compras únicas abrem o pagamento direto. Para vários itens, o carrinho reúne os produtos até a finalização.</p>
+				<div id="cartMessage" class="message" style="display:none"></div>
+				<div id="cartContent"></div>
 			</div>
 		</section>
 
@@ -72,6 +195,10 @@
 						<p style="color:#666">Acabamento mate, longa duração. Tons: Nude, Rosa, Vermelho.</p>
 						<div style="margin-top:8px;font-weight:700;color:var(--pink)">R$ 39,90</div>
 					</a>
+					<div class="card-actions">
+						<button class="btn btn-primary" type="button" data-product="Batom Líquido Velvet" data-price="39.90" data-buy="single">Comprar agora</button>
+						<button class="btn btn-secondary" type="button" data-product="Batom Líquido Velvet" data-price="39.90" data-buy="cart">Adicionar ao carrinho</button>
+					</div>
 				</article>
 
 				<article class="card">
@@ -81,6 +208,10 @@
 						<p style="color:#666">6 tons para diversos looks — pigmentação e fácil aplicação.</p>
 						<div style="margin-top:8px;font-weight:700;color:var(--pink)">R$ 79,90</div>
 					</a>
+					<div class="card-actions">
+						<button class="btn btn-primary" type="button" data-product="Paleta Bella Glow" data-price="79.90" data-buy="single">Comprar agora</button>
+						<button class="btn btn-secondary" type="button" data-product="Paleta Bella Glow" data-price="79.90" data-buy="cart">Adicionar ao carrinho</button>
+					</div>
 				</article>
 
 				<article class="card">
@@ -90,6 +221,10 @@
 						<p style="color:#666">Hidratação leve e brilho natural, para todos os tipos de pele.</p>
 						<div style="margin-top:8px;font-weight:700;color:var(--pink)">R$ 59,90</div>
 					</a>
+					<div class="card-actions">
+						<button class="btn btn-primary" type="button" data-product="Sérum Hidratante" data-price="59.90" data-buy="single">Comprar agora</button>
+						<button class="btn btn-secondary" type="button" data-product="Sérum Hidratante" data-price="59.90" data-buy="cart">Adicionar ao carrinho</button>
+					</div>
 				</article>
 
 				<article class="card">
@@ -99,6 +234,10 @@
 						<p style="color:#666">Reparação profunda com ativos naturais.</p>
 						<div style="margin-top:8px;font-weight:700;color:var(--pink)">R$ 49,90</div>
 					</a>
+					<div class="card-actions">
+						<button class="btn btn-primary" type="button" data-product="Máscara Capilar Nutri" data-price="49.90" data-buy="single">Comprar agora</button>
+						<button class="btn btn-secondary" type="button" data-product="Máscara Capilar Nutri" data-price="49.90" data-buy="cart">Adicionar ao carrinho</button>
+					</div>
 				</article>
 			</div>
 		</section>
@@ -142,5 +281,268 @@
 			</div>
 		</div>
 	</footer>
+
+	<script>
+		const USERS_KEY = 'bellaPinkUsers';
+		const ACTIVE_USER_KEY = 'bellaPinkActiveUser';
+		const CART_KEY = 'bellaPinkCart';
+		const GOOGLE_MAPS_API_KEY = '';
+		const state = {
+			users: JSON.parse(localStorage.getItem(USERS_KEY) || '[]'),
+			activeUser: JSON.parse(localStorage.getItem(ACTIVE_USER_KEY) || 'null'),
+			cart: JSON.parse(localStorage.getItem(CART_KEY) || '[]')
+		};
+
+		function saveUsers() {
+			localStorage.setItem(USERS_KEY, JSON.stringify(state.users));
+		}
+
+		function saveActiveUser() {
+			localStorage.setItem(ACTIVE_USER_KEY, JSON.stringify(state.activeUser));
+		}
+
+		function saveCart() {
+			localStorage.setItem(CART_KEY, JSON.stringify(state.cart));
+		}
+
+		function formatPrice(value) {
+			return `R$ ${Number(value).toFixed(2).replace('.', ',')}`;
+		}
+
+		function showMessage(element, text, type = 'info') {
+			if (!element) return;
+			element.style.display = 'block';
+			element.textContent = text;
+			element.style.background = type === 'success' ? '#ecfdf3' : '#fff3f9';
+			element.style.color = type === 'success' ? '#11724c' : '#a13d72';
+		}
+
+		function renderUserBox() {
+			const box = document.getElementById('userBox');
+			if (!state.activeUser) {
+				box.style.display = 'none';
+				return;
+			}
+			box.style.display = 'block';
+			box.innerHTML = `<strong>Olá, ${state.activeUser.nome}</strong><br />${state.activeUser.email}<br /><button class="btn btn-secondary" type="button" id="logoutBtn">Sair</button>`;
+			document.getElementById('logoutBtn').addEventListener('click', logout);
+		}
+
+		function renderCart() {
+			const count = document.getElementById('cartCount');
+			count.textContent = state.cart.length;
+			const content = document.getElementById('cartContent');
+			const message = document.getElementById('cartMessage');
+			if (!state.activeUser) {
+				message.style.display = 'block';
+				message.innerHTML = '<strong>Login obrigatório.</strong> Faça login ou registre-se para adicionar produtos e concluir a compra.';
+				content.innerHTML = '<p style="color:#666">Seu carrinho aparecerá aqui após o login.</p>';
+				return;
+			}
+			if (!state.cart.length) {
+				message.style.display = 'none';
+				content.innerHTML = '<p style="color:#666">Seu carrinho está vazio.</p>';
+				return;
+			}
+			message.style.display = 'block';
+			message.innerHTML = state.cart.length > 1
+				? '<strong>Compra múltipla selecionada.</strong> Os itens ficaram no carrinho para finalizar a compra.'
+				: '<strong>Compra única selecionada.</strong> Você será redirecionado para o pagamento após confirmar.';
+			content.innerHTML = `
+				<div class="cart-list">
+					${state.cart.map((item, index) => `
+						<div class="cart-item">
+							<div>
+								<strong>${item.name}</strong><br />
+								<span>${formatPrice(item.price)}</span>
+							</div>
+							<button class="btn btn-secondary" type="button" data-remove="${index}">Remover</button>
+						</div>
+					`).join('')}
+				</div>
+				<div class="cart-actions">
+					<button class="btn btn-primary" type="button" id="checkoutBtn">${state.cart.length > 1 ? 'Ir para o carrinho' : 'Pagar agora'}</button>
+					<button class="btn btn-secondary" type="button" id="clearCartBtn">Limpar carrinho</button>
+				</div>
+			`;
+			content.querySelectorAll('[data-remove]').forEach((button) => {
+				button.addEventListener('click', () => removeItem(Number(button.getAttribute('data-remove'))));
+			});
+			document.getElementById('checkoutBtn').addEventListener('click', checkout);
+			document.getElementById('clearCartBtn').addEventListener('click', clearCart);
+		}
+
+		function requireLogin(action) {
+			if (state.activeUser) return true;
+			const message = document.getElementById('authMessage');
+			showMessage(message, `Login obrigatório para ${action}. Faça login ou registre-se para continuar.`, 'info');
+			document.getElementById('login').scrollIntoView({ behavior: 'smooth' });
+			return false;
+		}
+
+		function addToCart(product, mode) {
+			if (!requireLogin(mode === 'single' ? 'finalizar a compra' : 'adicionar produtos ao carrinho')) return;
+			state.cart = mode === 'single' ? [product] : [...state.cart, product];
+			saveCart();
+			renderCart();
+			if (mode === 'single') {
+				window.open('https://www.mercadopago.com.br/', '_blank', 'noopener,noreferrer');
+				showMessage(document.getElementById('cartMessage'), 'Compra única confirmada. Você foi redirecionado para o pagamento.', 'success');
+			} else {
+				document.getElementById('carrinho').scrollIntoView({ behavior: 'smooth' });
+			}
+		}
+
+		function removeItem(index) {
+			state.cart.splice(index, 1);
+			saveCart();
+			renderCart();
+		}
+
+		function clearCart() {
+			state.cart = [];
+			saveCart();
+			renderCart();
+		}
+
+		function checkout() {
+			if (!state.activeUser) {
+				requireLogin('finalizar a compra');
+				return;
+			}
+			if (!state.cart.length) return;
+			if (state.cart.length > 1) {
+				showMessage(document.getElementById('cartMessage'), 'Você tem vários itens no carrinho. Continue a revisão do pedido e finalize a compra.', 'success');
+				document.getElementById('carrinho').scrollIntoView({ behavior: 'smooth' });
+				return;
+			}
+			window.open('https://www.mercadopago.com.br/', '_blank', 'noopener,noreferrer');
+			showMessage(document.getElementById('cartMessage'), 'Pagamento iniciado para a compra única. Você será redirecionado.', 'success');
+		}
+
+		function login(email, password) {
+			const profile = state.users.find((user) => user.email === email && user.password === password);
+			if (!profile) {
+				showMessage(document.getElementById('authMessage'), 'E-mail ou senha inválidos.', 'info');
+				return;
+			}
+			state.activeUser = profile;
+			saveActiveUser();
+			renderUserBox();
+			renderCart();
+			showMessage(document.getElementById('authMessage'), `Bem-vindo(a), ${profile.nome}!`, 'success');
+		}
+
+		function logout() {
+			state.activeUser = null;
+			saveActiveUser();
+			renderUserBox();
+			renderCart();
+		}
+
+		function registerProfile(event) {
+			event.preventDefault();
+			const form = event.currentTarget;
+			const data = Object.fromEntries(new FormData(form).entries());
+			if (state.users.some((user) => user.email === data.email)) {
+				showMessage(document.getElementById('authMessage'), 'Este e-mail já está cadastrado.', 'info');
+				return;
+			}
+			const profile = {
+				nome: data.nome,
+				sobrenome: data.sobrenome,
+				idade: data.idade,
+				email: data.email,
+				telefone: data.telefone,
+				password: data.password,
+				cep: data.cep,
+				endereco: data.endereco,
+				numero: data.numero,
+				complemento: data.complemento,
+				referencia: data.referencia
+			};
+			state.users.push(profile);
+			saveUsers();
+			state.activeUser = profile;
+			saveActiveUser();
+			renderUserBox();
+			renderCart();
+			showMessage(document.getElementById('authMessage'), 'Perfil criado com sucesso! Você já pode comprar.', 'success');
+			form.reset();
+		}
+
+		async function buscarEnderecoPorCep(cep) {
+			const cleaned = cep.replace(/\D/g, '');
+			const form = document.getElementById('registerForm');
+			if (cleaned.length !== 8) return;
+			const enderecoInput = form.elements.endereco;
+			const numeroInput = form.elements.numero;
+			const complementoInput = form.elements.complemento;
+			const referenciaInput = form.elements.referencia;
+			try {
+				if (GOOGLE_MAPS_API_KEY) {
+					const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${cleaned}&components=postal_code:${cleaned}&key=${GOOGLE_MAPS_API_KEY}`);
+					const data = await response.json();
+					if (data.status === 'OK') {
+						const result = data.results[0];
+						const addressComponents = result.address_components || [];
+						const route = addressComponents.find((component) => component.types.includes('route'))?.long_name || '';
+						const streetNumber = addressComponents.find((component) => component.types.includes('street_number'))?.long_name || '';
+						enderecoInput.value = route;
+						numeroInput.value = streetNumber;
+						complementoInput.value = complementoInput.value || '';
+						referenciaInput.value = referenciaInput.value || '';
+						return;
+					}
+				}
+				const response = await fetch(`https://viacep.com.br/ws/${cleaned}/json/`);
+				const data = await response.json();
+				if (!data.erro) {
+					enderecoInput.value = data.logradouro || '';
+					numeroInput.value = '';
+					complementoInput.value = '';
+					referenciaInput.value = '';
+				}
+			} catch (error) {
+				console.error(error);
+			}
+		}
+
+		function attachEvents() {
+			document.querySelectorAll('.tab').forEach((button) => {
+				button.addEventListener('click', () => {
+					document.querySelectorAll('.tab').forEach((tab) => tab.classList.remove('active'));
+					button.classList.add('active');
+					document.querySelectorAll('.auth-panel').forEach((panel) => panel.classList.remove('active'));
+					document.getElementById(button.dataset.tab === 'login' ? 'loginPanel' : 'registerPanel').classList.add('active');
+				});
+			});
+			document.getElementById('loginForm').addEventListener('submit', (event) => {
+				event.preventDefault();
+				login(event.currentTarget.email.value.trim(), event.currentTarget.password.value.trim());
+			});
+			document.getElementById('registerForm').addEventListener('submit', registerProfile);
+			document.getElementById('cep').addEventListener('input', (event) => {
+				const value = event.target.value.replace(/\D/g, '').slice(0, 8);
+				event.target.value = value.replace(/(\d{5})(\d{1,3})/, '$1-$2');
+				if (value.length === 8) buscarEnderecoPorCep(event.target.value);
+			});
+			document.querySelectorAll('[data-buy]').forEach((button) => {
+				button.addEventListener('click', () => addToCart({
+					name: button.dataset.product,
+					price: Number(button.dataset.price)
+				}, button.dataset.buy));
+			});
+			document.querySelector('button[data-product="Paleta Bella Glow"][data-buy="single"]').addEventListener('click', () => addToCart({ name: 'Paleta Bella Glow', price: 79.90 }, 'single'));
+		}
+
+		function init() {
+			renderUserBox();
+			renderCart();
+			attachEvents();
+		}
+
+		init();
+	</script>
 </body>
 </html>
