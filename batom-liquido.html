@@ -1,79 +1,68 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Batom Líquido Velvet | Bella Pink</title>
   <style>
-    :root{--pink:#ff69b4;--dark:#222;--light:#fffafc}
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:var(--light);color:var(--dark)}
-    header{background:linear-gradient(90deg,#fff0f6,#ffe6f3);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-    .brand{font-weight:800;color:var(--pink)}
-    nav a{margin-left:10px;text-decoration:none;color:var(--dark);font-weight:600}
-    .page{max-width:1000px;margin:32px auto;padding:0 20px 40px}
-    .hero{display:grid;grid-template-columns:1.2fr 0.8fr;gap:24px;align-items:center;background:#fff;border:1px solid #f4dce8;border-radius:20px;padding:24px;box-shadow:0 10px 30px rgba(255,105,180,0.08)}
-    .eyebrow{color:var(--pink);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem}
-    h1{margin:6px 0 10px;font-size:2rem}
-    .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-    .btn{display:inline-block;padding:12px 16px;border-radius:999px;text-decoration:none;font-weight:700}
-    .btn-primary{background:var(--pink);color:#fff}
-    .btn-secondary{background:#fdf2f8;color:var(--pink);border:1px solid #f6d7e7}
-    .card{margin-top:20px;background:#fff;border:1px solid #f4dce8;border-radius:16px;padding:20px}
-    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:12px}
-    .feature{background:#fff9fc;padding:12px;border-radius:12px}
-    .illustration{background:linear-gradient(135deg,#ffd9eb,#fff);border-radius:16px;padding:20px;display:flex;justify-content:center;align-items:center;min-height:260px}
-    .instagram{margin-top:20px;background:#fff0f7;border:1px solid #f6d7e7;border-radius:16px;padding:20px}
-    @media(max-width:760px){.hero{grid-template-columns:1fr}}
+    :root{--pink:#d5377d;--pink-dark:#9f1f57;--text:#2f2031;--border:#f4d0dd;}
+    *{box-sizing:border-box;}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,#ffe9f2 0%,#fff3f8 42%,#fff 100%);color:var(--text);}
+    header{background:#fff;position:sticky;top:0;z-index:10;box-shadow:0 20px 40px rgba(175,46,96,.08);}
+    .header-inner{max-width:1180px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+    .logo{font-weight:800;color:var(--pink);font-size:1.4rem;}
+    nav{display:flex;flex-wrap:wrap;gap:16px;}
+    nav a{color:var(--text);text-decoration:none;font-weight:600;}
+    .page{max-width:980px;margin:32px auto;padding:0 24px 40px;}
+    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;background:#fff;border:1px solid var(--border);border-radius:32px;padding:32px;box-shadow:0 20px 45px rgba(217,60,119,.08);}
+    .hero h1{margin:0;font-size:2.8rem;}
+    .hero p{margin:16px 0 0;color:#6d516a;line-height:1.8;}
+    .btn{display:inline-flex;align-items:center;justify-content:center;border:none;border-radius:999px;padding:14px 24px;background:var(--pink);color:#fff;font-weight:700;cursor:pointer;box-shadow:0 14px 30px rgba(214,62,122,.22);}
+    .card{margin-top:24px;background:#fff;border:1px solid var(--border);border-radius:32px;padding:28px;box-shadow:0 18px 35px rgba(175,69,115,.1);}
+    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:18px;}
+    .feature{background:#fff5f8;border:1px solid rgba(213,90,141,.2);border-radius:24px;padding:20px;}
+    .feature strong{display:block;margin-bottom:10px;color:var(--pink-dark);}
+    .footer{margin-top:40px;padding:24px;text-align:center;color:#6b4b6f;}
+    @media(max-width:860px){.hero{grid-template-columns:1fr;} }
   </style>
 </head>
 <body>
   <header>
-    <div class="brand">Bella Pink</div>
-    <nav>
-      <a href="index.html">Início</a>
-      <a href="batom-liquido.html">Batom</a>
-      <a href="paleta-bella-glow.html">Paleta</a>
-      <a href="serum-hidratante.html">Sérum</a>
-      <a href="mascara-capilar.html">Máscara</a>
-    </nav>
+    <div class="header-inner">
+      <div class="logo">Bella Pink</div>
+      <nav>
+        <a href="index.html">Início</a>
+        <a href="paleta-bella-glow.html">Paleta</a>
+        <a href="serum-hidratante.html">Sérum</a>
+        <a href="mascara-capilar.html">Máscara</a>
+      </nav>
+    </div>
   </header>
-
   <main class="page">
     <section class="hero">
       <div>
-        <div class="eyebrow">Produto destaque</div>
+        <div style="text-transform:uppercase;font-size:.82rem;letter-spacing:.18em;font-weight:800;color:#a94c7f;margin-bottom:18px">Destaque</div>
         <h1>Batom Líquido Velvet</h1>
-        <p>Acabamento matte, longa duração e sensação leve. Ideal para quem quer cor intensa com conforto durante o dia todo.</p>
-        <div class="btns">
-          <a class="btn btn-primary" href="index.html#produtos">Ver mais produtos</a>
-          <a class="btn btn-secondary" href="https://www.instagram.com/bellapink.beauty" target="_blank" rel="noreferrer">Siga no Instagram</a>
+        <p>Acabamento matte, longa duração e conforto que dura o dia todo. A escolha certa para looks poderosos.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
+          <a class="btn" href="index.html#produtos">Voltar ao catálogo</a>
+          <a class="btn" href="rastreamento.html">Rastrear pedido</a>
         </div>
       </div>
-      <div class="illustration">
-        <svg width="240" height="220" viewBox="0 0 240 220" xmlns="http://www.w3.org/2000/svg">
-          <rect x="40" y="25" width="160" height="170" rx="24" fill="#fff" stroke="#f3d0e1" stroke-width="3"/>
-          <rect x="68" y="48" width="104" height="122" rx="20" fill="#ff69b4"/>
-          <circle cx="120" cy="108" r="36" fill="#fff0f6"/>
-          <path d="M82 84c12-16 30-24 38-24s26 8 38 24" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round"/>
-        </svg>
+      <div style="border-radius:32px;background:linear-gradient(180deg,#fff0f6,#ffe7f1);padding:28px;display:flex;align-items:center;justify-content:center;min-height:320px;box-shadow:0 25px 45px rgba(217,60,119,.12);">
+        <div style="width:100%;height:220px;border-radius:28px;background:#fff;display:flex;align-items:center;justify-content:center;color:#d5377d;font-weight:700;font-size:1.1rem;">Imagem do produto</div>
       </div>
     </section>
-
     <section class="card">
-      <h2>Por que ele é especial</h2>
-      <p>O Batom Líquido Velvet combina cor vibrante, alta cobertura e acabamento sofisticado, perfeito para looks do dia e da noite.</p>
+      <h2 style="margin-top:0;font-size:1.6rem;color:var(--text)">Por que ele é especial</h2>
+      <p style="color:#6d516a;line-height:1.8;">O Batom Líquido Velvet combina cor intensa, acabamento elegante e sensação leve para complementar qualquer look.</p>
       <div class="features">
-        <div class="feature"><strong>Cor intensa</strong><br />Pigmentação que destaca o olhar e a boca.</div>
-        <div class="feature"><strong>Durabilidade</strong><br />Fica bonito por horas sem perder o acabamento.</div>
-        <div class="feature"><strong>Textura leve</strong><br />Conforto e acabamento elegante no toque.</div>
+        <div class="feature"><strong>Cor intensa</strong>Realce sua beleza com pigmentação que dura horas.</div>
+        <div class="feature"><strong>Alta fixação</strong>Fórmula resistente que mantém o acabamento uniforme.</div>
+        <div class="feature"><strong>Toque confortável</strong>Textura suave que não resseca os lábios.</div>
       </div>
-    </section>
-
-    <section class="instagram">
-      <h2>Marketing Instagram</h2>
-      <p>Compartilhe o resultado com o hashtag #BellaPinkBeauty e mostre seu look com esse batom em vídeos, stories e reels.</p>
-      <p><strong>Curta e acompanhe:</strong> <a href="https://www.instagram.com/bellapink.beauty" target="_blank" rel="noreferrer">@bellapink.beauty</a></p>
     </section>
   </main>
+  <footer class="footer">© Bella Pink • Beleza feminina</footer>
 </body>
 </html>

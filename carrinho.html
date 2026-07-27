@@ -1,0 +1,176 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carrinho | Bella Pink</title>
+  <style>
+    :root{--pink:#d5377d;--pink-dark:#9f1f57;--text:#2f2031;--border:#f4d0dd;}
+    *{box-sizing:border-box;}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,#ffe9f2 0%,#fff3f8 42%,#fff 100%);color:var(--text);}
+    .topbar{background:var(--pink);color:#fff;text-align:center;padding:12px 20px;font-weight:700;}
+    .header-wrap{background:#fff;position:sticky;top:0;z-index:12;box-shadow:0 20px 40px rgba(175,46,96,.08);}
+    .header-inner{max-width:1180px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+    .logo{font-size:1.5rem;font-weight:800;letter-spacing:.08em;color:var(--pink);}
+    .nav-links{display:flex;flex-wrap:wrap;gap:18px;}
+    .nav-links a{color:var(--text);text-decoration:none;font-weight:600;}
+    .nav-actions{display:flex;gap:10px;align-items:center;}
+    .nav-actions a, .nav-actions button{padding:10px 16px;border-radius:999px;text-decoration:none;font-weight:700;border:1px solid transparent;cursor:pointer;}
+    .nav-actions a.primary{background:var(--pink);color:#fff;}
+    .page{max-width:1080px;margin:32px auto;padding:0 24px 40px;}
+    .grid{display:grid;grid-template-columns:1fr 380px;gap:24px;}
+    .card{background:#fff;border:1px solid var(--border);border-radius:32px;padding:28px;box-shadow:0 20px 45px rgba(192,83,132,.1);}
+    .card h1{margin-top:0;font-size:2.6rem;}
+    .card p{color:#6d516a;line-height:1.75;}
+    .login-card{margin-bottom:24px;}
+    .form-group{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+    label{font-size:.88rem;font-weight:700;color:#69415f;text-transform:uppercase;letter-spacing:.08em;}
+    input{border:1px solid rgba(213,90,141,.24);border-radius:20px;padding:16px 18px;font-size:1rem;outline:none;}
+    button{border:none;border-radius:999px;padding:16px 28px;background:var(--pink);color:#fff;font-weight:700;cursor:pointer;box-shadow:0 14px 30px rgba(214,62,122,.22);}
+    .message-box{background:#fff5f8;border:1px solid rgba(213,90,141,.24);border-radius:22px;padding:18px;color:#4f3145;margin-bottom:18px;}
+    .cart-item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 0;border-bottom:1px solid rgba(213,90,141,.16);}
+    .cart-summary{background:#fff;border:1px solid rgba(213,90,141,.24);border-radius:24px;padding:20px;margin-top:20px;}
+    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;}
+    .footer{margin-top:40px;padding:24px;text-align:center;color:#6b4b6f;}
+    @media(max-width:980px){.grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+  <div class="topbar">CARRINHO | Faça login para concluir a compra</div>
+  <header class="header-wrap">
+    <div class="header-inner">
+      <div class="logo">Bella Pink</div>
+      <nav class="nav-links">
+        <a href="index.html">Produtos</a>
+        <a href="rastreamento.html">Rastreio</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="index.html" class="primary">Continuar comprando</a>
+      </div>
+    </div>
+  </header>
+  <main class="page">
+    <div class="grid">
+      <div>
+        <div class="card login-card" id="loginArea">
+          <h1>Faça login para ver o carrinho</h1>
+          <p>Entre com seu e-mail ou CPF para acessar os itens adicionados ao carrinho.</p>
+          <div id="loginMessage" class="message-box" style="display:none"></div>
+          <form id="cartLoginForm">
+            <div class="form-group"><label for="cartIdentifier">E-mail ou CPF</label><input id="cartIdentifier" name="identifier" type="text" required /></div>
+            <div class="form-group"><label for="cartPassword">Senha</label><input id="cartPassword" name="password" type="password" required /></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+              <button type="submit">Entrar</button>
+              <a href="esqueci-senha.html" style="color:var(--pink);font-weight:700;text-decoration:none;">Recuperar senha</a>
+            </div>
+          </form>
+        </div>
+        <div class="card" id="cartCard" style="display:none;">
+          <h1>Seu carrinho</h1>
+          <div id="cartMessage" class="message-box" style="display:none"></div>
+          <div id="cartItems"></div>
+          <div class="cart-summary" id="cartSummary" style="display:none;"></div>
+          <div class="actions" id="cartActions" style="display:none;"></div>
+        </div>
+      </div>
+      <aside>
+        <div class="card">
+          <h2>Ajuda</h2>
+          <p>Se você ainda não tem uma conta, registre-se na página inicial. Depois de logado, poderá finalizar a compra ou continuar comprando.</p>
+          <p><strong>Adicione mais itens:</strong> volte para os produtos e escolha outras opções.</p>
+        </div>
+      </aside>
+    </div>
+  </main>
+  <footer class="footer">© Bella Pink • Beleza feminina</footer>
+  <script>
+    const USERS_KEY = 'bellaPinkUsers';
+    const ACTIVE_USER_KEY = 'bellaPinkActiveUser';
+    const CART_KEY = 'bellaPinkCart';
+    const PENDING_ITEM_KEY = 'bellaPinkPendingItem';
+    const state = {
+      users: JSON.parse(localStorage.getItem(USERS_KEY) || '[]'),
+      activeUser: JSON.parse(localStorage.getItem(ACTIVE_USER_KEY) || 'null'),
+      cart: JSON.parse(localStorage.getItem(CART_KEY) || '[]'),
+      pendingItem: JSON.parse(localStorage.getItem(PENDING_ITEM_KEY) || 'null')
+    };
+    function saveActiveUser() { localStorage.setItem(ACTIVE_USER_KEY, JSON.stringify(state.activeUser)); }
+    function saveCart() { localStorage.setItem(CART_KEY, JSON.stringify(state.cart)); }
+    function savePendingItem(item) { if (item) localStorage.setItem(PENDING_ITEM_KEY, JSON.stringify(item)); else localStorage.removeItem(PENDING_ITEM_KEY); }
+    function normalizeCpf(value) { return value.replace(/\D/g, ''); }
+    function showMessage(element, text) { element.style.display = 'block'; element.textContent = text; }
+    function addItemToCart(item) { state.cart.push(item); saveCart(); savePendingItem(null); }
+    function renderCart() {
+      const cartCard = document.getElementById('cartCard');
+      const loginArea = document.getElementById('loginArea');
+      const cartItems = document.getElementById('cartItems');
+      const cartSummary = document.getElementById('cartSummary');
+      const cartActions = document.getElementById('cartActions');
+      const cartMessage = document.getElementById('cartMessage');
+      if (!state.activeUser) {
+        cartCard.style.display = 'none';
+        loginArea.style.display = 'block';
+        if (state.pendingItem) {
+          showMessage(document.getElementById('loginMessage'), 'Para adicionar este produto ao carrinho, faça o login. Ele será incluído automaticamente após o acesso.');
+        }
+        return;
+      }
+      loginArea.style.display = 'none';
+      cartCard.style.display = 'block';
+      if (state.pendingItem) {
+        addItemToCart(state.pendingItem);
+        showMessage(cartMessage, `Produto ${state.pendingItem.name} adicionado automaticamente ao carrinho após o login.`);
+      }
+      if (!state.cart.length) {
+        cartItems.innerHTML = '<p style="color:#6d516a;">Seu carrinho está vazio. Volte aos produtos para adicionar itens.</p>';
+        cartSummary.style.display = 'none';
+        cartActions.style.display = 'flex';
+        cartActions.innerHTML = `<a href="index.html" class="btn" style="text-decoration:none;color:#fff;">Continuar comprando</a>`;
+        return;
+      }
+      cartMessage.style.display = 'block';
+      cartMessage.textContent = 'Carrinho carregado. Revise seus itens antes de finalizar.';
+      cartItems.innerHTML = state.cart.map((item, index) => `
+        <div class="cart-item">
+          <div>
+            <strong>${item.name}</strong><br />${item.weight ? item.weight + 'kg' : ''}
+          </div>
+          <div style="text-align:right;">
+            <div>${item.price.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</div>
+            <button type="button" data-remove="${index}" style="margin-top:8px;padding:8px 14px;border:none;border-radius:999px;background:var(--pink);color:#fff;cursor:pointer;">Remover</button>
+          </div>
+        </div>
+      `).join('');
+      const subtotal = state.cart.reduce((sum, item) => sum + Number(item.price || 0), 0);
+      cartSummary.style.display = 'block';
+      cartSummary.innerHTML = `<strong>Resumo</strong><br />Total: ${subtotal.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}`;
+      cartActions.style.display = 'flex';
+      cartActions.innerHTML = `
+        <a href="index.html" class="btn" style="text-decoration:none;color:#fff;">Adicionar mais itens</a>
+        <a href="pagamento.html" class="btn" style="text-decoration:none;color:#fff;">Ir para pagamento</a>
+      `;
+      cartCard.querySelectorAll('[data-remove]').forEach((button) => {
+        button.addEventListener('click', () => {
+          state.cart.splice(Number(button.dataset.remove), 1);
+          saveCart();
+          renderCart();
+        });
+      });
+    }
+    function login(identifier, password) {
+      const normalized = identifier.trim().toLowerCase();
+      const normalizedCpf = normalizeCpf(identifier.trim());
+      const profile = state.users.find((user) => (user.email === normalized || user.cpf === normalizedCpf || user.cpf === identifier.trim()) && user.password === password);
+      const loginMessage = document.getElementById('loginMessage');
+      if (!profile) { showMessage(loginMessage, 'E-mail, CPF ou senha inválidos.'); return; }
+      if (!profile.verified) { showMessage(loginMessage, 'Usuário não confirmado.'); return; }
+      state.activeUser = profile;
+      saveActiveUser();
+      renderCart();
+    }
+    function saveActiveUser() { localStorage.setItem(ACTIVE_USER_KEY, JSON.stringify(state.activeUser)); }
+    document.getElementById('cartLoginForm').addEventListener('submit', (event) => { event.preventDefault(); login(event.currentTarget.identifier.value.trim(), event.currentTarget.password.value.trim()); });
+    renderCart();
+  </script>
+</body>
+</html>
