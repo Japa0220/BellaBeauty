@@ -25,6 +25,7 @@
     .installment-wrap{margin-top:12px;display:none;}
     .installment-wrap.active{display:block;}
     .installment-wrap label{display:block;margin-bottom:8px;font-weight:700;color:var(--text);}
+    .installment-note{margin:12px 0 0;color:#6d516a;font-size:.95rem;}
     .installment-wrap select{width:100%;max-width:260px;padding:12px 14px;border:1px solid var(--border);border-radius:14px;background:#fff;color:var(--text);font:inherit;}
     button{border:none;border-radius:999px;padding:16px 28px;background:var(--pink);color:#fff;font-weight:700;cursor:pointer;box-shadow:0 14px 30px rgba(214,62,122,.22);margin-top:24px;}
     .result{background:#fff5f8;border:1px solid rgba(213,90,141,.24);border-radius:22px;padding:20px;color:#4f3145;margin-top:24px;}
@@ -69,7 +70,10 @@
           <option value="8">8x</option>
           <option value="9">9x</option>
           <option value="10">10x</option>
+          <option value="11">11x</option>
+          <option value="12">12x</option>
         </select>
+        <p class="installment-note">Acima de 10x será cobrado juros.</p>
       </div>
       <button id="confirmPaymentBtn" type="button">Confirmar pagamento</button>
       <div id="confirmation" class="result" style="display:none;"></div>
@@ -79,15 +83,39 @@
   <script>
     const CART_KEY = 'bellaPinkCart';
     const state = { cart: JSON.parse(localStorage.getItem(CART_KEY) || '[]') };
+    const INSTALLMENT_INTEREST_RATE = 0.02;
+    const INSTALLMENT_INTEREST_THRESHOLD = 10;
     function formatPrice(value) { return value.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
     function getTotal() {
-      return state.cart.reduce((sum, item) => sum + Number(item.price || 0), 0);
+      return state.cart.reduce((sum, item) => sum + Number(item.price || 0) * Number(item.quantity || 1), 0);
     }
     function getSelectedMethod() {
       return document.querySelector('input[name="paymentMethod"]:checked').value;
     }
     function getInstallments() {
       return Number(document.getElementById('installmentSelect').value || 2);
+    }
+    function calculateInstallmentAmount(total, installments) {
+      if (installments <= INSTALLMENT_INTEREST_THRESHOLD) {
+        return total / installments;
+      }
+      const totalWithInterest = total * Math.pow(1 + INSTALLMENT_INTEREST_RATE, installments);
+      return totalWithInterest / installments;
+    }
+    function calculateTotalWithInterest(total, installments) {
+      return installments <= INSTALLMENT_INTEREST_THRESHOLD ? total : total * Math.pow(1 + INSTALLMENT_INTEREST_RATE, installments);
+    }
+    function populateInstallmentOptions(total) {
+      const select = document.getElementById('installmentSelect');
+      Array.from(select.options).forEach((option) => {
+        const installments = Number(option.value);
+        if (installments > INSTALLMENT_INTEREST_THRESHOLD) {
+          const installmentValue = calculateInstallmentAmount(total, installments);
+          option.text = `${installments}x (${formatPrice(installmentValue)})`;
+        } else {
+          option.text = `${installments}x`;
+        }
+      });
     }
     function renderSummary() {
       const summary = document.getElementById('paymentSummary');
@@ -98,6 +126,7 @@
       }
       const total = getTotal();
       summary.innerHTML = `<strong>Itens:</strong> ${state.cart.length}<br /><strong>Total:</strong> ${formatPrice(total)}`;
+      populateInstallmentOptions(total);
       renderHelp();
     }
     function renderHelp() {
@@ -114,7 +143,13 @@
         help.innerHTML = 'Crédito à vista com parcelamento em 1x. Parcelas sem juros dependendo da administradora.';
       } else {
         installmentWrap.classList.add('active');
-        help.innerHTML = `Parcelamento em ${installments}x de ${formatPrice(total / installments)} sem juros. Valor total será dividido em parcelas iguais.`;
+        const installmentAmount = calculateInstallmentAmount(total, installments);
+        const totalWithInterest = calculateTotalWithInterest(total, installments);
+        if (installments > INSTALLMENT_INTEREST_THRESHOLD) {
+          help.innerHTML = `Parcelamento em ${installments}x de ${formatPrice(installmentAmount)} com juros. Total com juros: ${formatPrice(totalWithInterest)}.`;
+        } else {
+          help.innerHTML = `Parcelamento em ${installments}x de ${formatPrice(installmentAmount)} sem juros. Valor total será dividido em parcelas iguais.`;
+        }
       }
     }
     function confirmPayment() {
@@ -128,7 +163,12 @@
       } else if (method === 'creditSingle') {
         details = 'Pagamento em crédito à vista confirmado.';
       } else {
-        details = `Pagamento parcelado confirmado em ${installments}x de ${formatPrice(total / installments)}.`;
+        const installmentAmount = calculateInstallmentAmount(total, installments);
+        if (installments > INSTALLMENT_INTEREST_THRESHOLD) {
+          details = `Pagamento parcelado confirmado em ${installments}x de ${formatPrice(installmentAmount)} com juros.`;
+        } else {
+          details = `Pagamento parcelado confirmado em ${installments}x de ${formatPrice(installmentAmount)} sem juros.`;
+        }
       }
       localStorage.removeItem(CART_KEY);
       document.getElementById('confirmation').style.display = 'block';
